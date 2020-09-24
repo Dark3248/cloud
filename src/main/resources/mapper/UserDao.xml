@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xiaoxueqi.cloudcomputing.dao.UserDao">
+
+    <select id="searchByUsername" resultType="xiaoxueqi.cloudcomputing.entity.User">
+        select
+            *
+        from
+            cloud.user u
+        where
+            #{username} = u.username
+    </select>
+
+    <select id="searchById" resultType="xiaoxueqi.cloudcomputing.entity.User">
+        select
+            *
+        from
+            cloud.user u
+        where
+            #{id} = u.id
+    </select>
+
+    <insert id="register">
+        insert into
+            cloud.user(username, password, type)
+        values
+            (#{username}, #{password}, 1)
+    </insert>
+
+    <update id="changePassword">
+        update
+            cloud.user u
+        set
+            u.password = #{password}
+        where
+            u.id = #{id}
+    </update>
+
+</mapper>

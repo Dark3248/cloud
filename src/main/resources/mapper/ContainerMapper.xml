@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xiaoxueqi.cloudcomputing.dao.ContainerDao">
+
+    <insert id="createContainer">
+        insert into
+            cloud.container(name, image, uid, username, port, cid)
+        values
+            (#{name}, #{image}, #{uid}, #{username}, #{port}, #{cid})
+    </insert>
+
+    <delete id="removeContainer" parameterType="String">
+        delete from
+            container
+        where
+            #{cid} = cid
+    </delete>
+
+    <select id="getCidByUid" resultType="String">
+        select
+            cid
+        from
+            cloud.container c
+        where
+            c.uid = #{uid}
+    </select>
+
+    <select id="searchUsernameByCid" resultType="String">
+        select
+            username
+        from
+            cloud.container c
+        where
+            #{cid} = c.cid
+    </select>
+
+</mapper>

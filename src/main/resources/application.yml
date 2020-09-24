@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: cloudcomputing
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud?serverTimezone=GMT%2b8&useUnicode-true&characterEncoding-utf-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: xiaoxueqi.cloudcomputing.dao
+  configuration:
+    map-underscore-to-camel-case: true
+
