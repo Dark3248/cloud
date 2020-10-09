@@ -12,6 +12,13 @@
             (#{name}, #{image}, #{uid}, #{username}, #{port}, #{cid})
     </insert>
 
+    <insert id="createContainer2">
+        insert into
+            cloud.container(name, image, uid, username, port, cid, course_id)
+        values
+            (#{name}, #{image}, #{uid}, #{username}, #{port}, #{cid}, #{courseId})
+    </insert>
+
     <delete id="removeContainer" parameterType="String">
         delete from
             container
@@ -26,6 +33,24 @@
             cloud.container c
         where
             c.uid = #{uid}
+    </select>
+
+    <select id="getCidByCourse" resultType="String">
+        select
+            cid
+        from
+            cloud.container c
+        where
+            c.course_id = #{cid}
+    </select>
+
+    <select id="getCidByUidAndCourse" resultType="String">
+        select
+            cid
+        from
+            cloud.container c
+        where
+            c.course_id = #{courseId} and c.uid = #{uid}
     </select>
 
     <select id="searchUsernameByCid" resultType="String">

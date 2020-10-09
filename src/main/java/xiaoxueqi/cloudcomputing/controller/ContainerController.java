@@ -53,7 +53,41 @@ public class ContainerController {
                 .withShowAll(true)
                 .withIdFilter(cid)
                 .exec();
+    }
 
+    /**
+     * 根据课程id获取虚拟机中的容器
+     *
+     * @param id 课程id
+     * @return 容器列表
+     */
+    @GetMapping("/course/{id}")
+    public List<Container> getCourseContainers(@PathVariable int id) {
+        List<String> cid = containerService.getContainersByCourse(id);
+        if(cid.size() == 0)
+            return null;
+        return client.listContainersCmd()
+                .withShowAll(true)
+                .withIdFilter(cid)
+                .exec();
+    }
+
+    /**
+     * 根据课程id和学生id获取虚拟机中的容器
+     *
+     * @param cid 课程id uid 学生id
+     * @return 容器列表
+     */
+    @GetMapping("/course/{cid}/{uid}")
+    public List<Container> getCourseContainers(@PathVariable int cid,
+                                               @PathVariable int uid) {
+        List<String> list = containerService.getContainersByUidAndCourse(uid, cid);
+        if(list.size() == 0)
+            return null;
+        return client.listContainersCmd()
+                .withShowAll(true)
+                .withIdFilter(list)
+                .exec();
     }
 
     /**
@@ -87,11 +121,20 @@ public class ContainerController {
         }
 
         //执行命令
-        response = client.createContainerCmd(request.getImage())
-                .withName(request.getName())
-                .withHostConfig(new HostConfig().withPortBindings(portBindings))
-                .withExposedPorts(exposedPorts)
-                .exec();
+        if(request.getIsTerminalOpen() == 1) {
+            response = client.createContainerCmd(request.getImage())
+                    .withName(request.getName())
+                    .withHostConfig(new HostConfig().withPortBindings(portBindings).withPrivileged(true))
+                    .withExposedPorts(exposedPorts)
+                    .withEntrypoint("/sbin/init")
+                    .exec();
+        } else {
+            response = client.createContainerCmd(request.getImage())
+                    .withName(request.getName())
+                    .withHostConfig(new HostConfig().withPortBindings(portBindings))
+                    .withExposedPorts(exposedPorts)
+                    .exec();
+        }
 
         //向数据库中插入容器信息
         containerService.createContainer(request.getName(), request.getImage(), id, port_string.toString(), response.getId());

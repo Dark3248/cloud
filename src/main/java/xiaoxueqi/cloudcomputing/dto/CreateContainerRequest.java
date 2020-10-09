@@ -7,6 +7,7 @@ public class CreateContainerRequest {
     String image;
     String name;
     List<Integer> ports;
+    int isTerminalOpen;
 
     public String getImage() {
         return image;
@@ -30,5 +31,23 @@ public class CreateContainerRequest {
 
     public void setPorts(List<Integer> ports) {
         this.ports = ports;
+    }
+
+    public int getIsTerminalOpen() {
+        return isTerminalOpen;
+    }
+
+    public void setIsTerminalOpen(int isTerminalOpen) {
+        this.isTerminalOpen = isTerminalOpen;
+    }
+
+    @Override
+    public String toString() {
+        return "CreateContainerRequest{" +
+                "image='" + image + '\'' +
+                ", name='" + name + '\'' +
+                ", ports=" + ports +
+                ", isTerminalOpen=" + isTerminalOpen +
+                '}';
     }
 }

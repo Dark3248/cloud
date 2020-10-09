@@ -45,7 +45,7 @@
         from
             user
         where
-            username != 'admin';
+            type != 0;
     </select>
 
 </mapper>

@@ -8,6 +8,8 @@ import xiaoxueqi.cloudcomputing.entity.User;
 import xiaoxueqi.cloudcomputing.service.ContainerService;
 import xiaoxueqi.cloudcomputing.service.UserService;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class UserController {
@@ -19,7 +21,8 @@ public class UserController {
     ContainerService containerService;
 
     /**
-     * 登录接口
+     * 登录
+     *
      * @param username 登录用户名
      * @param password 登录密码
      * @return (code=200,id,type,username) 成功, code=400 失败
@@ -35,13 +38,14 @@ public class UserController {
             response.setCode(200);
             response.setType(user.getType());
             response.setUsername(user.getUsername());
-            response.setId(Integer.parseInt(user.getId()));
+            response.setId(user.getId());
         }
         return response;
     }
 
     /**
-     * 注册接口
+     * 注册
+     *
      * @param username 注册用户名
      * @param password 注册密码
      * @return code=200 成功, code=400 失败
@@ -69,6 +73,14 @@ public class UserController {
         return containerService.getUsernameByCid(cid);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param id 用户id
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return 修改信息
+     */
     @PostMapping("/user/changePassword")
     public String changePassword(@RequestParam int id,
                                @RequestParam String oldPassword,
@@ -82,6 +94,26 @@ public class UserController {
             else
                 return "fail";
         }
+    }
+
+    /**
+     * 获取课程中没有的学生
+     *
+     * @return 学生列表
+     */
+    @GetMapping("/user/getAll/{id}")
+    public List<User> getAllUsers(@PathVariable int id) {
+        return userService.getAllUsers(id);
+    }
+
+    /**
+     * 获取课程中的学生
+     *
+     * @return 学生列表
+     */
+    @GetMapping("/user/getByCourse/{id}")
+    public List<User> getAllUsers2(@PathVariable int id) {
+        return userService.getAllUsers2(id);
     }
 
 }

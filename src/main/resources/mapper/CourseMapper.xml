@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xiaoxueqi.cloudcomputing.dao.CourseDao">
+
+    <insert id="createCourse" parameterType="xiaoxueqi.cloudcomputing.entity.Course">
+        insert into
+            course(name, info, teacher)
+        values
+            (#{name}, #{info}, #{teacher})
+    </insert>
+
+    <select id="searchByCourseName" resultType="xiaoxueqi.cloudcomputing.entity.Course">
+        select
+            *
+        from
+            course
+        where
+            name = #{name}
+    </select>
+
+    <select id="searchByCourseId" resultType="xiaoxueqi.cloudcomputing.entity.Course">
+        select
+            *
+        from
+            course
+        where
+            id = #{id}
+    </select>
+
+    <insert id="addStudent">
+        insert into
+            course_student(cid, uid)
+        values
+            (#{cid}, #{uid})
+    </insert>
+
+    <select id="getAllCourses" resultType="xiaoxueqi.cloudcomputing.entity.Course">
+        select
+            *
+        from
+            course
+    </select>
+
+    <select id="getStudentsByCid" resultType="int">
+        select
+            uid
+        from
+            course_student
+        where
+            cid = #{cid};
+    </select>
+
+    <select id="getCoursesByUid" resultType="int">
+        select
+            cid
+        from
+            course_student
+        where
+            uid = #{uid}
+    </select>
+
+</mapper>

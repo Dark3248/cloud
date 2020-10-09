@@ -19,4 +19,6 @@ public interface UserDao {
 
     int changePassword(int id, String password);
 
+    List<User> getAllUsers();
+
 }

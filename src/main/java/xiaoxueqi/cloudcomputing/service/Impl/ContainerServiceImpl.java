@@ -25,6 +25,12 @@ public class ContainerServiceImpl implements ContainerService {
     }
 
     @Override
+    public void createContainer2(String name, String image, int uid, String port, String cid, int courseId) {
+        User user = userDao.searchById(uid);
+        containerDao.createContainer2(name, image, uid, user.getUsername(), port, cid, courseId);
+    }
+
+    @Override
     public boolean removeContainer(String id) {
         return containerDao.removeContainer(id) > 0;
     }
@@ -35,7 +41,17 @@ public class ContainerServiceImpl implements ContainerService {
     }
 
     @Override
+    public List<String> getContainersByCourse(int id) {
+        return containerDao.getCidByCourse(id);
+    }
+
+    @Override
     public String getUsernameByCid(String cid) {
         return containerDao.searchUsernameByCid(cid);
+    }
+
+    @Override
+    public List<String> getContainersByUidAndCourse(int uid, int courseId) {
+        return containerDao.getCidByUidAndCourse(uid, courseId);
     }
 }

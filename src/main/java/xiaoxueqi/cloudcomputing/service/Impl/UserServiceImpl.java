@@ -2,15 +2,24 @@ package xiaoxueqi.cloudcomputing.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xiaoxueqi.cloudcomputing.dao.CourseDao;
 import xiaoxueqi.cloudcomputing.dao.UserDao;
 import xiaoxueqi.cloudcomputing.entity.User;
 import xiaoxueqi.cloudcomputing.service.UserService;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    CourseDao courseDao;
 
     /**
      *
@@ -50,5 +59,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean judge(int id, String password) {
         return userDao.searchById(id).getPassword().equals(password);
+    }
+
+    @Override
+    public List<User> getAllUsers(int id) {
+        List<User> all = userDao.getAllUsers();
+        List<Integer> exist = courseDao.getStudentsByCid(id);
+        Set<Integer> set = new HashSet<>(exist);
+        List<User> res = new ArrayList<>();
+        for(User user : all) {
+            if(!set.isEmpty() && set.contains(user.getId()))
+                continue;
+            res.add(user);
+        }
+        return res;
+    }
+
+    @Override
+    public List<User> getAllUsers2(int id) {
+        List<User> all = userDao.getAllUsers();
+        List<Integer> exist = courseDao.getStudentsByCid(id);
+        Set<Integer> set = new HashSet<>(exist);
+        List<User> res = new ArrayList<>();
+        for(User user : all) {
+            if(!set.isEmpty() && set.contains(user.getId()))
+                res.add(user);
+        }
+        return res;
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class User {
 
-    String id;
+    int id;
     String username;
     String password;
     //权限，0为管理员，1为用户
@@ -14,11 +14,11 @@ public class User {
     //用户拥有的容器
     List<Container> containers;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
